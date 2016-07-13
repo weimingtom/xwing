@@ -39,22 +39,22 @@
 InputEvent::InputEvent ( Component* source, int id ) :
 		ComponentEvent(source, id) {
 
-	that.time = ::time(0);
+	this->time = ::time(0);
 	}
 
 void
 InputEvent::consume() {
-	that.AWTEvent::consume();
+	this->AWTEvent::consume();
 	}
 
 bool
 InputEvent::isConsumed() {
-	return that.AWTEvent::isConsumed();
+	return this->AWTEvent::isConsumed();
 	}
 
 long
 InputEvent::getWhen() {
-	return that.time;
+	return this->time;
 	}
 
 ////////////////////////////////////////

@@ -14,6 +14,9 @@
 #include <awt/Rectangle.hh>
 #include <awt/Graphics.hh>
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "NativeGraphics.hh"
 
 
@@ -26,15 +29,15 @@ NativeGraphics::NativeGraphics() :
 
 Graphics*
 NativeGraphics::create() {
-	return that.clone();
+	return this->clone();
 	}
 
 void
 NativeGraphics::drawPoint ( int x, int y ) {
-	x += that.tx;
-	y += that.ty;
+	x += this->tx;
+	y += this->ty;
 
-	that.pDrawPoint(x, y);
+	this->pDrawPoint(x, y);
 	}
 
 void
@@ -45,13 +48,13 @@ NativeGraphics::drawLine ( int x1, int y1,
 	// First, translate origin by (tx, ty).
 	////////////////////////////////////////
 
-	x1 += that.tx;
-	y1 += that.ty;
+	x1 += this->tx;
+	y1 += this->ty;
 
-	x2 += that.tx;
-	y2 += that.ty;
+	x2 += this->tx;
+	y2 += this->ty;
 
-	that.pDrawLine(x1, y1, x2, y2);
+	this->pDrawLine(x1, y1, x2, y2);
 	}
 
 void
@@ -62,10 +65,10 @@ NativeGraphics::drawRect ( int x, int y,
 	// First, translate origin by (tx, ty).
 	////////////////////////////////////////
 
-	x += that.tx;
-	y += that.ty;
+	x += this->tx;
+	y += this->ty;
 
-	XDrawRectangle(glob::display, glob::win, that.gc,
+	XDrawRectangle(glob::display, glob::win, this->gc,
 				   x, y, width-1, height-2);
 	}
 
@@ -80,10 +83,10 @@ NativeGraphics::fillRect ( int x, int y,
 	// First, translate origin by (tx, ty).
 	////////////////////////////////////////
 
-	x += that.tx;
-	y += that.ty;
+	x += this->tx;
+	y += this->ty;
 
-	XFillRectangle(glob::display, glob::win, that.gc,
+	XFillRectangle(glob::display, glob::win, this->gc,
 				   x, y, width, height);
 	}
 
@@ -91,8 +94,8 @@ void
 NativeGraphics::fill3DRect ( int x, int y,
 							 unsigned int width, unsigned int height ) {
 
-	that.draw3DRect(x,y,width,height);
-	that.fillRect(x+2, y+2, width-3, height-3);	// shortened by 4 on all sides
+	this->draw3DRect(x,y,width,height);
+	this->fillRect(x+2, y+2, width-3, height-3);	// shortened by 4 on all sides
 	}
 
 void
@@ -107,8 +110,8 @@ NativeGraphics::draw3DRect ( int x1, int y1,
 	--width;
 	height -= 2;
 
-	x1 += that.tx;
-	y1 += that.ty;
+	x1 += this->tx;
+	y1 += this->ty;
 
 	int x2 = x1 + width;
 	int y2 = y1 + height;
@@ -119,38 +122,38 @@ NativeGraphics::draw3DRect ( int x1, int y1,
 	int x6 = x2 - 1;
 	int y6 = y2 - 1;
 
-	unsigned int save_color = that.values.foreground;
+	unsigned int save_color = this->values.foreground;
 
-	that.setColor(new Color(0,0,0));
-	that.pDrawLine(x1, y1, x2, y1); // out, top
-	that.pDrawLine(x1, y1, x1, y2); // out, left
-	that.pDrawLine(x5, y6, x6, y6); // in, bottom
-	that.pDrawLine(x6, y5, x6, y6); // in, right
+	this->setColor(new Color(0,0,0));
+	this->pDrawLine(x1, y1, x2, y1); // out, top
+	this->pDrawLine(x1, y1, x1, y2); // out, left
+	this->pDrawLine(x5, y6, x6, y6); // in, bottom
+	this->pDrawLine(x6, y5, x6, y6); // in, right
 
-	that.setColor(new Color(255,255,255));
-	that.pDrawLine(x5, y5, x6, y5); // in, top
-	that.pDrawLine(x5, y5, x5, y6); // in, left
-	that.pDrawLine(x1, y2, x2, y2); // out, bottom
-	that.pDrawLine(x2, y1, x2, y2); // out, right
+	this->setColor(new Color(255,255,255));
+	this->pDrawLine(x5, y5, x6, y5); // in, top
+	this->pDrawLine(x5, y5, x5, y6); // in, left
+	this->pDrawLine(x1, y2, x2, y2); // out, bottom
+	this->pDrawLine(x2, y1, x2, y2); // out, right
 
-	that.setColor(new Color(save_color));
+	this->setColor(new Color(save_color));
 	}
 
 void
 NativeGraphics::drawString ( String* s, int x, int y ) {
-	x += that.tx;
-	y += that.ty;
+	x += this->tx;
+	y += this->ty;
 
-	FontMetrics metrics(that.font);
+	FontMetrics metrics(this->font);
 
- 	XDrawString(glob::display, glob::win, that.gc,
+ 	XDrawString(glob::display, glob::win, this->gc,
 				x, (y + metrics.getAscent()),
 				s->c_str(), s->length());
 	}
 
 void
 NativeGraphics::drawString ( String& s, int x, int y ) {
-	that.drawString(&s, x, y);
+	this->drawString(&s, x, y);
 	}
 
 void
@@ -163,58 +166,60 @@ NativeGraphics::setClip ( int x, int y,
 	// X windows rectangle semantics->
 	////////////////////////////////////////
 
-	that.cx += x;
-	that.cy += y;
+	this->cx += x;
+	this->cy += y;
 
-	that.width = width;
-	that.height = height;
+	this->width = width;
+	this->height = height;
 
-	that.createClip();
+	this->createClip();
 	}
 
 void
 NativeGraphics::setColor ( Color* c ) {
-	that.mask = GCForeground;
-	that.values.foreground = c->getRGB();
+	this->mask = GCForeground;
+	this->values.foreground = c->getRGB();
 
-	that.updateGC();
+	this->updateGC();
 	}
 
 void
 NativeGraphics::setFont ( awt::Font* font ) {
-	that.font = font->clone();
-
-	Font font_id = XLoadFont(glob::display, that.font->getFontName()->c_str());
-	XSetFont(glob::display, that.gc, font_id);
+	this->font = font->clone();
+	fprintf(stderr, "===>NativeGraphics::setFont 1\n");
+	Font font_id = XLoadFont(glob::display, this->font->getFontName()->c_str());
+	fprintf(stderr, "===>NativeGraphics::setFont 2\n");
+	XSetFont(glob::display, this->gc, font_id);
+	fprintf(stderr, "===>NativeGraphics::setFont 3\n");
 	} 
 
 Color*
 NativeGraphics::getColor() {
-	return new Color(that.values.foreground);
+	return new Color(this->values.foreground);
 	}
 
 awt::Font*
 NativeGraphics::getFont() {
-	return that.font;
+	return this->font;
 	}
 
 FontMetrics*
 NativeGraphics::getFontMetrics() {
-	return new FontMetrics(that.font);
+	return new FontMetrics(this->font);
 	}
 
 void
 NativeGraphics::translate ( int dx, int dy ) {
-	that.tx += dx;
-	that.ty += dy;
+	this->tx += dx;
+	this->ty += dy;
 	}
 
 void
 NativeGraphics::dispose() {
-	if ( that.gc )
-		XFreeGC(glob::display, that.gc);
+	if ( this->gc )
+		XFreeGC(glob::display, this->gc);
 
-	that.gc = 0;
+	this->gc = 0;
 	}
 
 ////////////////////////////////////////
@@ -225,36 +230,36 @@ NativeGraphics::dispose() {
 
 void
 NativeGraphics::initGC() {
-	that.values.background = Color::gray->getRGB();
-	that.values.foreground = BlackPixel(glob::display,
+	this->values.background = Color::gray->getRGB();
+	this->values.foreground = BlackPixel(glob::display,
 										glob::screen);
-	that.values.line_width = 0;
+	this->values.line_width = 0;
 
-	that.mask = ( GCBackground |
+	this->mask = ( GCBackground |
 				  GCForeground |
 				  GCLineWidth );
 
-	that.gc = XCreateGC(glob::display, glob::win,
-						that.mask, &that.values);
+	this->gc = XCreateGC(glob::display, glob::win,
+						this->mask, &this->values);
 
-	that.setFont(that.font);
+	this->setFont(this->font);
 	}
 
 void
 NativeGraphics::updateGC() {
-	XChangeGC(glob::display, that.gc, that.mask, &that.values);
+	XChangeGC(glob::display, this->gc, this->mask, &this->values);
 
-	that.mask = 0;
+	this->mask = 0;
 	}
 
 void
 NativeGraphics::createClip() {
-	that.clip_mask = XCreateRegion();
+	this->clip_mask = XCreateRegion();
 
-	XRectangle hole = { that.cx, that.cy, that.width, that.height };
-	XUnionRectWithRegion(&hole, that.clip_mask, that.clip_mask);
-	XSetRegion(glob::display, that.gc, that.clip_mask);
-	XDestroyRegion(that.clip_mask);
+	XRectangle hole = { this->cx, this->cy, this->width, this->height };
+	XUnionRectWithRegion(&hole, this->clip_mask, this->clip_mask);
+	XSetRegion(glob::display, this->gc, this->clip_mask);
+	XDestroyRegion(this->clip_mask);
 	}
 
 ////////////////////////////////////////
@@ -266,12 +271,12 @@ NativeGraphics::createClip() {
 void
 NativeGraphics::pDrawLine ( int x1, int y1, int x2, int y2 ) {
 
-	XDrawLine(glob::display, glob::win, that.gc, x1, y1, x2, y2);
+	XDrawLine(glob::display, glob::win, this->gc, x1, y1, x2, y2);
 	}
 
 void
 NativeGraphics::pDrawPoint ( int x, int y ) {
-	XDrawPoint(glob::display, glob::win, that.gc, x, y);
+	XDrawPoint(glob::display, glob::win, this->gc, x, y);
 	}
 
 ////////////////////////////////////////
@@ -286,7 +291,7 @@ NativeGraphics::~NativeGraphics() {
 	cerr << "NativeGraphics::dtor()." << nl;
 #endif // DEBUG_GRAPHICS
 
-	that.dispose();
+	this->dispose();
 	}
 */
 
@@ -295,25 +300,25 @@ NativeGraphics::NativeGraphics ( NativeGraphics& orig ) :
 		cx(orig.cx), cy(orig.cy), tx(orig.tx), ty(orig.ty),
 		width(orig.width), height(orig.height) {
 
-	that.copy(orig);
+	this->copy(orig);
 	}
 
 NativeGraphics&
 NativeGraphics::operator = ( NativeGraphics& rhs ) {
 	if ( this != &rhs ) {
-		that.mask = rhs.mask;
-		that.font = rhs.font->clone();
-		that.cx = rhs.cx;
-		that.cy = rhs.cy;
-		that.tx = rhs.tx;
-		that.ty = rhs.ty;
-		that.width = rhs.width;
-		that.height = rhs.height;
+		this->mask = rhs.mask;
+		this->font = rhs.font->clone();
+		this->cx = rhs.cx;
+		this->cy = rhs.cy;
+		this->tx = rhs.tx;
+		this->ty = rhs.ty;
+		this->width = rhs.width;
+		this->height = rhs.height;
 		}
 
-	that.copy(rhs);
+	this->copy(rhs);
 
-	return that;
+	return *this;
 	}
 
 void
@@ -325,15 +330,15 @@ NativeGraphics::copy ( NativeGraphics& orig ) {
 						GCClipXOrigin |
 						GCClipYOrigin );
 
-	XGetGCValues(glob::display, orig.gc, m, &that.values);
-	that.gc = XCreateGC(glob::display, glob::win, m, &that.values);
+	XGetGCValues(glob::display, orig.gc, m, &this->values);
+	this->gc = XCreateGC(glob::display, glob::win, m, &this->values);
 
-	if ( that.gc == 0 ) {
+	if ( this->gc == 0 ) {
 		cerr << "Could not allocate new Graphics Context, exiting." << endl;
 		exit(1);
 		}
 
-	that.createClip();
+	this->createClip();
 	}
 
 bool
@@ -341,12 +346,12 @@ NativeGraphics::equals ( Object& rhs ) {
 	NativeGraphics& obj = DCAST<NativeGraphics&>(rhs);
 
 	return
-		(that.cx == obj.cy) || (that.cy == obj.cy) ||
-		(that.tx == obj.tx) || (that.ty == obj.ty) ||
-		(that.width == obj.width) || (that.height == obj.width);
+		(this->cx == obj.cy) || (this->cy == obj.cy) ||
+		(this->tx == obj.tx) || (this->ty == obj.ty) ||
+		(this->width == obj.width) || (this->height == obj.width);
 	}
 
 NativeGraphics*
 NativeGraphics::clone() {
-	return new NativeGraphics(that);
+	return new NativeGraphics(*this);
 	}

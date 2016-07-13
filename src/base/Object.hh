@@ -5,6 +5,7 @@
 #include <gc_cpp.h>
 
 #include <base/defs.hh>
+using namespace std;
 
 
 #define NULL_OBJ	(RCAST<Object *>(0))

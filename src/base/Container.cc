@@ -92,7 +92,7 @@ Container::Container()
 
 		// this->array = new(UseGC) (Object*)[Container::DEFAULT_TOTAL];
 
-		this->array = NEW (Object*)[Container::DEFAULT_TOTAL];
+		this->array = NEW Object*[Container::DEFAULT_TOTAL];
 
 #ifdef DEBUG_JG_CONTAINER
 		cerr << "Container::ctor(): Never here!" << endl;
@@ -104,7 +104,7 @@ Container::Container ( int n )
 {
 	this->count = 0;
 	this->total = n;
-	this->array = NEW (Object*)[this->total];
+	this->array = NEW Object*[this->total];
 }
 
 
@@ -157,7 +157,7 @@ void Container::clear()
 
 Iterator *Container::getIterator()
 {
-	Object **p = NEW (Object*)[this->count];
+	Object **p = NEW Object*[this->count];
 
 	for ( int i = 0; i < this->count; ++i )
 		p[i] = this->array[i];
@@ -226,7 +226,7 @@ void Container::grow()
 #endif
 
 	unsigned int n = this->total << 1;
-	Object **temp = NEW (Object*)[n];
+	Object **temp = NEW Object*[n];
 
 	memcpy(temp, this->array, this->total * sizeof(Object *));
 

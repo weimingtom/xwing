@@ -39,7 +39,7 @@ ComponentEvent::ComponentEvent ( Component* source, int id ) :
 
 Component*
 ComponentEvent::getComponent() {
-	return DCAST<Component*>(that.getSource());
+	return DCAST<Component*>(this->getSource());
 	}
 
 ////////////////////////////////////////
@@ -51,7 +51,7 @@ ComponentEvent::getComponent() {
 
 ComponentEvent*
 ComponentEvent::clone() {
-	return new ComponentEvent(that);
+	return new ComponentEvent(*this);
 	}
 
 // void

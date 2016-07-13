@@ -15,7 +15,7 @@
 
 XButton::XButton() : psize(new Dimension())
 {
-	that.init();
+	this->init();
 }
 
 XButton::XButton ( String* s ) :
@@ -25,7 +25,7 @@ XButton::XButton ( String* s ) :
     psize(new Dimension())
 {
 
-	that.init();
+	this->init();
 }
 
 XButton::XButton ( String& s ) :
@@ -35,18 +35,18 @@ XButton::XButton ( String& s ) :
     psize(new Dimension())
 {
 
-	that.init();
+	this->init();
 }
 
 Dimension*
 XButton::getPreferredSize()
 {
 	unsigned int pwidth, pheight;
-	FontMetrics* m = that.getFontMetrics(that.getFont());
+	FontMetrics* m = this->getFontMetrics(this->getFont());
 
 	if ( m )
 	{
-		pwidth = m->stringWidth(that.label);
+		pwidth = m->stringWidth(this->label);
 		pheight = m->getHeight();
 
 		pwidth += pwidth >> 2;
@@ -54,17 +54,17 @@ XButton::getPreferredSize()
 
 		delete m;
 
-		that.psize = new Dimension(pwidth, pheight);
+		this->psize = new Dimension(pwidth, pheight);
 	}
 
-	return that.psize;
+	return this->psize;
 }
 
 void
 XButton::setText ( String& s )
 {
-	that.label = s.clone();
-	that.repaint();
+	this->label = s.clone();
+	this->repaint();
 }
 
 
@@ -76,14 +76,14 @@ XButton::paint ( Graphics* g )
 	// Colors if button pressed.
 	////////////////////////////////////////
 
-	if ( that.isMousePressed && that.isMouseInside )
-		that.setBackground(Color::darkgray->clone());
+	if ( this->isMousePressed && this->isMouseInside )
+		this->setBackground(Color::darkgray->clone());
 	else
-		that.setBackground(Color::gray->clone());
+		this->setBackground(Color::gray->clone());
 		
-	Dimension* size = that.getSize();
+	Dimension* size = this->getSize();
 
-	g->setColor(that.getBackground());
+	g->setColor(this->getBackground());
 	g->fill3DRect(0, 0, size->width, size->height);
 
 	////////////////////////////////////////
@@ -96,19 +96,19 @@ XButton::paint ( Graphics* g )
 	// Draw label.
 	////////////////////////////////////////
 
-	if ( that.label->length() )
+	if ( this->label->length() )
 	{
-		g->setColor(that.getForeground());
+		g->setColor(this->getForeground());
 
 		FontMetrics* m = g->getFontMetrics();
-		unsigned int sw = m->stringWidth(that.label);
+		unsigned int sw = m->stringWidth(this->label);
 		unsigned int sh = m->getHeight();
 		unsigned int x = (size->width - sw) / 2;
 		unsigned int y = (size->height - sh) / 2;
 
 		delete m;
 
-		g->drawString(that.label, x, y);
+		g->drawString(this->label, x, y);
 	}
 
 	////////////////////////////////////////
@@ -119,24 +119,24 @@ XButton::paint ( Graphics* g )
 void
 XButton::mouseEntered ( MouseEvent* evt )
 {
-	if ( that.isMouseInside == false )
+	if ( this->isMouseInside == false )
 	{
-		that.isMouseInside = true;
+		this->isMouseInside = true;
 
-		if (that.isMousePressed == true)
+		if (this->isMousePressed == true)
 		{
-			that.repaint();
+			this->repaint();
 		} }
 }
 
 void
 XButton::mouseExited ( MouseEvent* evt )
 {
-	if ( that.isMouseInside == true )
+	if ( this->isMouseInside == true )
 	{
-		that.isMouseInside = false;
+		this->isMouseInside = false;
 
-		if ( that.isMousePressed == true )
+		if ( this->isMousePressed == true )
 		{
 			repaint();
 		} }
@@ -149,7 +149,7 @@ XButton::mousePressed ( MouseEvent* evt )
 	out << "XButton::mousePressed()." << nl;
 #endif // DEBUG_MOUSE
 
-	that.isMousePressed = true;
+	this->isMousePressed = true;
 	repaint();
 }
 
@@ -160,8 +160,8 @@ XButton::mouseReleased ( MouseEvent* evt )
 	out << "XButton::mouseReleased() -- PAIR." << nl;
 #endif // DEBUG_MOUSE
 
-	that.isMousePressed = false;
-	if ( that.isMouseInside == true )
+	this->isMousePressed = false;
+	if ( this->isMouseInside == true )
 		repaint();
 }
 
@@ -172,19 +172,19 @@ XButton::mouseClicked ( MouseEvent* evt )
 	out << "XButton::mouseClicked()!" << nl;
 #endif // DEBUG_MOUSE
 
-	that.fireActionPerformed(new ActionEvent(this, that.label));
+	this->fireActionPerformed(new ActionEvent(this, this->label));
 }
 
 void
 XButton::init()
 {
-	that.setForeground(Color::black->clone());
-	that.addMouseListener(this);
+	this->setForeground(Color::black->clone());
+	this->addMouseListener(this);
 }
 
 
 XButton*
 XButton::clone()
 {
-	return new XButton(that);
+	return new XButton(*this);
 }

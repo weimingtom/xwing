@@ -31,51 +31,51 @@ Color::Color ( unsigned int rgb ) :
 Color::Color ( unsigned int r, unsigned int g, unsigned int b ) :
     alpha(255), red(r), green(g), blue(b)
 {
-	if ( that.red > 255 )
-		that.red %= 255;
-	if ( that.green > 255 )
-		that.green %= 255;
-	if ( that.blue > 255 )
-		that.blue %= 255;
+	if ( this->red > 255 )
+		this->red %= 255;
+	if ( this->green > 255 )
+		this->green %= 255;
+	if ( this->blue > 255 )
+		this->blue %= 255;
 }
 
 
 Color* Color::clone()
 {
-	return new Color(that);
+	return new Color(*this);
 }
 
 
 unsigned int Color::getAlpha()
 {
-	return that.alpha;
+	return this->alpha;
 }
 
 
 unsigned int Color::getRed()
 {
-	return that.red;
+	return this->red;
 }
 
 
 unsigned int Color::getGreen()
 {
-	return that.green;
+	return this->green;
 }
 
 
 unsigned int Color::getBlue()
 {
-	return that.blue;
+	return this->blue;
 }
 
 
 unsigned int Color::getRGB()
 {
 	return
-		(that.alpha << 24) +
-		(that.red << 16)   +
-		(that.green << 8)  +
-		(that.blue);
+		(this->alpha << 24) +
+		(this->red << 16)   +
+		(this->green << 8)  +
+		(this->blue);
 }
 

@@ -19,27 +19,27 @@ FontMetrics::FontMetrics ( awt::Font* f ) :
 
 unsigned int
 FontMetrics::getAscent() {
-	return that.font_info->max_bounds.ascent;
+	return this->font_info->max_bounds.ascent;
 	}
 
 unsigned int
 FontMetrics::getHeight() {
 	return
-		that.font_info->max_bounds.ascent +	that.font_info->max_bounds.descent;
+		this->font_info->max_bounds.ascent +	this->font_info->max_bounds.descent;
 	}
 
 unsigned int
 FontMetrics::stringWidth ( String* string ) {
-	return XTextWidth(that.font_info, string->c_str(), string->length());
+	return XTextWidth(this->font_info, string->c_str(), string->length());
 	}
 
 unsigned int
 FontMetrics::stringWidth ( String& string ) {
-	return that.stringWidth(&string);
+	return this->stringWidth(&string);
 	}
 
 
 FontMetrics*
 FontMetrics::clone() {
-	return new FontMetrics(that);
+	return new FontMetrics(*this);
 	}

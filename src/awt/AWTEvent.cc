@@ -39,7 +39,7 @@ AWTEvent::AWTEvent ( Object* s, int i ) : EventObject(s), id(i)
 int
 AWTEvent::getId()
 {
-	return that.id;
+	return this->id;
 }
 
 ////////////////////////////////////////
@@ -51,13 +51,13 @@ AWTEvent::getId()
 void
 AWTEvent::consume()
 {
-	that.consumed = true;
+	this->consumed = true;
 }
 
 bool
 AWTEvent::isConsumed()
 {
-	return that.consumed;
+	return this->consumed;
 }
 
 ////////////////////////////////////////
@@ -69,7 +69,7 @@ AWTEvent::isConsumed()
 AWTEvent*
 AWTEvent::clone()
 {
-	return new AWTEvent(that);
+	return new AWTEvent(*this);
 }
 
 //////////////////////////////////////////////////

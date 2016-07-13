@@ -19,5 +19,5 @@ XPanel::XPanel()
 
 XPanel*
 XPanel::clone() {
-	return new XPanel(that);
+	return new XPanel(*this);
 	}

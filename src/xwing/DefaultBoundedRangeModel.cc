@@ -19,59 +19,59 @@ DefaultBoundedRangeModel::DefaultBoundedRangeModel()
 
 int DefaultBoundedRangeModel::getMinimum()
 {
-	return that.minimum;
+	return this->minimum;
 }
 
 int DefaultBoundedRangeModel::getValue()
 {
-	return that.value;
+	return this->value;
 }
 
 int DefaultBoundedRangeModel::getExtent()
 {
-	return that.extent;
+	return this->extent;
 }
 
 int DefaultBoundedRangeModel::getMaximum()
 {
-	return that.maximum;
+	return this->maximum;
 }
 
 bool DefaultBoundedRangeModel::getValueIsAdjusting()
 {
-	return that.isAdjusting;
+	return this->isAdjusting;
 }
 
 ////////////////////////////////////////
 
 void DefaultBoundedRangeModel::setMinimum ( int n )
 {
-	that.minimum = n;
-	that.fireStateChanged();
+	this->minimum = n;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::setValue ( int n )
 {
-	that.value = n;
-	that.fireStateChanged();
+	this->value = n;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::setExtent ( int n )
 {
-	that.extent = n;
-	that.fireStateChanged();
+	this->extent = n;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::setMaximum ( int n )
 {
-	that.maximum = n;
-	that.fireStateChanged();
+	this->maximum = n;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::setValueIsAdjusting ( bool n )
 {
-	that.isAdjusting = n;
-	that.fireStateChanged();
+	this->isAdjusting = n;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::setRangeProperties ( int max,
@@ -80,12 +80,12 @@ void DefaultBoundedRangeModel::setRangeProperties ( int max,
 						    int ext,
 						    bool isAdj )
 {
-	that.maximum = max;
-	that.minimum = min;
-	that.value = val;
-	that.extent = ext;
-	that.isAdjusting = isAdj;
-	that.fireStateChanged();
+	this->maximum = max;
+	this->minimum = min;
+	this->value = val;
+	this->extent = ext;
+	this->isAdjusting = isAdj;
+	this->fireStateChanged();
 }
 
 void DefaultBoundedRangeModel::addChangeListener ( ChangeListener* cl )
@@ -106,5 +106,5 @@ void DefaultBoundedRangeModel::fireStateChanged()
 
 DefaultBoundedRangeModel *DefaultBoundedRangeModel::clone()
 {
-	return new DefaultBoundedRangeModel(that);
+	return new DefaultBoundedRangeModel(*this);
 }

@@ -46,8 +46,8 @@ FlowLayout::FlowLayout ( unsigned int a ) :
 		rows(0), cols(0),
 		prev_size(new Dimension()) {
 
-	if ( that.align > 2 )
-		that.align = FlowLayout::CENTER;
+	if ( this->align > 2 )
+		this->align = FlowLayout::CENTER;
 	}
 
 FlowLayout::FlowLayout ( unsigned int a, unsigned int h, unsigned int v ) :
@@ -56,8 +56,8 @@ FlowLayout::FlowLayout ( unsigned int a, unsigned int h, unsigned int v ) :
 		rows(0), cols(0),
 		prev_size(new Dimension()) {
 
-	if ( that.align > 2 )
-		that.align = FlowLayout::CENTER;
+	if ( this->align > 2 )
+		this->align = FlowLayout::CENTER;
 	}
 
 void
@@ -104,7 +104,7 @@ FlowLayout::layoutContainer ( awt::Container* parent ) {
 
 		unsigned int prev_index = 0;
 
-		if ( size->width != that.prev_size->width ) {
+		if ( size->width != this->prev_size->width ) {
 			unsigned int i = 0;
 
 			for ( ; i < count; ++i ) {
@@ -117,7 +117,7 @@ FlowLayout::layoutContainer ( awt::Container* parent ) {
 					// Adjust for alignment.
 					////////////////////////////////////////
 
-					that.adjustAlignment(size->width - accum_width, parent,
+					this->adjustAlignment(size->width - accum_width, parent,
 										 insets->left,
 										 prev_index, i);
 					prev_index = i;
@@ -151,12 +151,12 @@ FlowLayout::layoutContainer ( awt::Container* parent ) {
 			// is (nrows - 1) rows.
 			////////////////////////////////////////
 
-			that.adjustAlignment(size->width - accum_width, parent,
+			this->adjustAlignment(size->width - accum_width, parent,
 								 insets->left,
 								 prev_index, i);
 			}
 
-		that.prev_size = size;
+		this->prev_size = size;
 		}
 	}
 
@@ -165,15 +165,15 @@ FlowLayout::adjustAlignment ( unsigned int remainder, awt::Container* parent,
 							  unsigned int left_offset,
 							  unsigned int begin, unsigned int end ) {
 
-	if ( that.align != that.LEFT ) {
+	if ( this->align != LEFT ) {
 		unsigned int tx;
 
-		switch ( that.align ) {
-			case that.RIGHT:
+		switch ( this->align ) {
+			case RIGHT:
 				tx = remainder;
 				break;
 
-			case that.CENTER:
+			case CENTER:
 				tx = remainder >> 1;
 				break;
 			}
@@ -189,5 +189,5 @@ FlowLayout::adjustAlignment ( unsigned int remainder, awt::Container* parent,
 
 FlowLayout*
 FlowLayout::clone() {
-	return new FlowLayout(that);
+	return new FlowLayout(*this);
 	}

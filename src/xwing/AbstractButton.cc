@@ -21,14 +21,14 @@ AbstractButton::AbstractButton() :
 
 void AbstractButton::addActionListener ( ActionListener* l )
 {
-	that.al->add(l);
+	this->al->add(l);
 }
 
 
 void AbstractButton::fireActionPerformed ( ActionEvent* e )
 {
-	unsigned int count = that.al->size();
+	unsigned int count = this->al->size();
 
 	for ( int i = 0; i < count; ++i )
-		that.al->getPtr(i)->actionPerformed(e);
+		this->al->getPtr(i)->actionPerformed(e);
 }

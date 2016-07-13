@@ -48,23 +48,23 @@ awt::Container::Container() :
 Component*
 awt::Container::add ( Component* c ) {
 	c->parent = this;
-	that.list->add(c);
+	this->list->add(c);
 
-	that.lm->layoutContainer(this);
+	this->lm->layoutContainer(this);
 
 	return c;
 	}
 
 Component*
 awt::Container::getComponent ( unsigned int i ) {
-	return that.list->getPtr(i);
+	return this->list->getPtr(i);
 	}
 
 Component*
 awt::Container::getComponentAt ( int x, int y ) {
 	Component* c;
 	Rectangle* bounds;
-	Component* target = that.Component::getComponentAt(x,y);
+	Component* target = this->Component::getComponentAt(x,y);
 	unsigned int count = list->size();
 
 	for ( int i = 0; i < count; ++i ) {
@@ -83,28 +83,28 @@ awt::Container::getComponentAt ( int x, int y ) {
 
 unsigned int
 awt::Container::getComponentCount() {
-	return that.list->size();
+	return this->list->size();
 	}
 
 LayoutManager*
 awt::Container::getLayout() {
-	return that.lm;
+	return this->lm;
 	}
 
 void
 awt::Container::setLayout( LayoutManager* lm ) {
-	that.lm = lm;
+	this->lm = lm;
 	}
 
 void
 awt::Container::paintAll ( Graphics* g ) {
-	that.lm->layoutContainer(this);
+	this->lm->layoutContainer(this);
 
-	Dimension* size = that.getSize();
-	unsigned int count = that.list->size();
+	Dimension* size = this->getSize();
+	unsigned int count = this->list->size();
 
 	for ( int i = 0; i < count; ++i ) {
-		Component* c = that.getComponent(i);
+		Component* c = this->getComponent(i);
 		Rectangle* bounds = c->getBounds();
 
 		g->translate(bounds->x, bounds->y);
@@ -119,7 +119,7 @@ awt::Container::paintAll ( Graphics* g ) {
 
 void
 awt::Container::paintComponents ( Graphics* g ) {
-	that.paintAll(g);
+	this->paintAll(g);
 	}
 
 void
@@ -128,20 +128,20 @@ awt::Container::update ( Graphics* g ) {
 	// Update myself.
 	////////////////////////////////////////
 
-	that.Component::update(g);
+	this->Component::update(g);
 
 	////////////////////////////////////////
 	// Update children.
 	////////////////////////////////////////
 
-	unsigned int count = that.list->size();
+	unsigned int count = this->list->size();
 
 	if ( count ) {
-		that.lm->layoutContainer(this);
+		this->lm->layoutContainer(this);
 
-		Dimension* size = that.getSize();
+		Dimension* size = this->getSize();
 
-		Border* border = that.getBorder();
+		Border* border = this->getBorder();
 		Insets* insets = new Insets(0,0,0,0);
 		if ( border )
 			insets = border->getBorderInsets(this);
@@ -150,7 +150,7 @@ awt::Container::update ( Graphics* g ) {
 		size->height -= (insets->top + insets->bottom);
 
 		for ( int i = 0; i < count; ++i ) {
-			Component* c = that.getComponent(i);
+			Component* c = this->getComponent(i);
 			Rectangle* bounds = c->getBounds();
 
 			g->translate(bounds->x, bounds->y);
@@ -167,22 +167,22 @@ awt::Container::update ( Graphics* g ) {
 
 void
 awt::Container::validate() {
-	that.Component::validate();
+	this->Component::validate();
 
-	unsigned int count = that.list->size();
+	unsigned int count = this->list->size();
 	for ( int i = 0; i < count; ++i )
-		that.list->getPtr(i)->validate();
+		this->list->getPtr(i)->validate();
 
-	that.lm->layoutContainer(this);
+	this->lm->layoutContainer(this);
 	}
 
 void
 awt::Container::removeNotify() {
-	that.Component::removeNotify();
+	this->Component::removeNotify();
 
-	unsigned int count = that.list->size();
+	unsigned int count = this->list->size();
 	for ( int i = 0; i < count; ++i )
-		that.list->getPtr(i)->removeNotify();
+		this->list->getPtr(i)->removeNotify();
 	}
 
 ////////////////////////////////////////

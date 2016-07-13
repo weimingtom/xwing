@@ -67,5 +67,5 @@ void MouseAdapter::mouseClicked ( MouseEvent* )
 
 MouseAdapter* MouseAdapter::clone()
 {
-	return new MouseAdapter(that);
+	return new MouseAdapter(*this);
 }

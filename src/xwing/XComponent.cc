@@ -15,5 +15,5 @@ XComponent::XComponent() {
 
 Dimension*
 XComponent::getPreferredSize() {
-	return that.getSize();
+	return this->getSize();
 	}

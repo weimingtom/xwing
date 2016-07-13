@@ -31,6 +31,9 @@
 #include <awt/LayoutManager.hh>
 #include <awt/Container.hh>
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "Frame.hh"
 
 
@@ -40,54 +43,54 @@ Frame::Frame() :
     isMapped(false),
     title("An Xwing App")
 {
-	that.init();
+	this->init();
 }
 
 Frame::Frame ( String* s ) :
     isMapped(false),
     title(*s)
 {
-	that.init();
+	this->init();
 }
 
 Frame::Frame ( String& s ) :
     isMapped(false),
     title(s)
 {
-	that.init();
+	this->init();
 }
 
 void Frame::addNotify()
 {
-	Dimension* size = that.getSize();
-
-	that.width = size->width;
-	that.height = size->height;
-
+	Dimension* size = this->getSize();
+	fprintf(stderr, ">>>>addNotify 1\n");
+	this->width = size->width;
+	this->height = size->height;
+	fprintf(stderr, ">>>>addNotify 2\n");
 	////////////////////////////////////////
 	// Create window.
 	////////////////////////////////////////
 
-	if ( !that.isMapped )
+	if ( !this->isMapped )
 	{
 		glob::win =
 			XCreateSimpleWindow(glob::display,
 					    RootWindow(glob::display, glob::screen),
-					    0, 0, that.width, that.height, 0,
+					    0, 0, this->width, this->height, 0,
 					    WhitePixel(glob::display, glob::screen),
 					    Color::gray->getRGB());
-		that.isMapped = true;
+		this->isMapped = true;
 	}
-
+	fprintf(stderr, ">>>>addNotify 3\n");
 	XTextProperty name;
-	char* window_name = CCAST<char*>(that.title.c_str());
+	char* window_name = CCAST<char*>(this->title.c_str());
 	XStringListToTextProperty(&window_name, 1, &name);
 	XSetWMName(glob::display, glob::win, &name);
-
+	fprintf(stderr, ">>>>addNotify 4\n");
 	////////////////////////////////////////
 	// Select events to listen for.
 	////////////////////////////////////////
-
+	fprintf(stderr, ">>>>addNotify 5\n");
 	XSelectInput( glob::display, glob::win,
 		      ExposureMask |
 		      PointerMotionMask |
@@ -96,20 +99,20 @@ void Frame::addNotify()
 		      ButtonReleaseMask |
 		      ButtonMotionMask |
 		      StructureNotifyMask );
-
+	fprintf(stderr, ">>>>addNotify 6\n");
 	////////////////////////////////////////
 	// Map window to display.
 	////////////////////////////////////////
 
 	XMapWindow(glob::display, glob::win);
-
-	that.native_graphics.initGC();
+fprintf(stderr, ">>>>addNotify 7\n");
+	this->native_graphics.initGC();
 
 	////////////////////////////////////////
 	// Validate components (containers).
 	////////////////////////////////////////
 
-	// that.validate();
+	// this->validate();
 
 	////////////////////////////////////////
 	// Enter application Main Event Loop.
@@ -129,11 +132,11 @@ void Frame::addNotify()
 	int mouse_event_type;
 	unsigned long mouse_time;
 	AWTEvent* awt_event = 0;
-
+fprintf(stderr, ">>>>addNotify 8\n");
 	do
 	{
 		XNextEvent(glob::display, &report);
-
+fprintf(stderr, ">>>>addNotify 9\n");
 		switch ( report.type )
 		{
 			////////////////////////////////////////
@@ -143,7 +146,7 @@ void Frame::addNotify()
 			////////////////////////////////////////
 
 		    case Expose:
-			    that.update(&(that.native_graphics));
+			    this->update(&(this->native_graphics));
 			    break;
 
 			    ////////////////////////////////////////
@@ -153,7 +156,7 @@ void Frame::addNotify()
 			    ////////////////////////////////////////
 
 		    case ConfigureNotify:
-			    that.setSize(report.xconfigure.width,
+			    this->setSize(report.xconfigure.width,
 					 report.xconfigure.height);
 			    break;
 
@@ -169,7 +172,7 @@ void Frame::addNotify()
 			    mouse_time = report.xmotion.time;
 
 			    comp_under_mouse =
-				    that.getComponentAt(mouse_x, mouse_y);
+				    this->getComponentAt(mouse_x, mouse_y);
 
 			    if ( comp_under_mouse != old_comp_under_mouse )
 			    {
@@ -243,7 +246,7 @@ void Frame::addNotify()
 			    mouse_time = report.xbutton.time;
 
 			    comp_under_mouse =
-				    that.getComponentAt(mouse_x, mouse_y);
+				    this->getComponentAt(mouse_x, mouse_y);
 
 			    switch ( report.type )
 			    {
@@ -305,8 +308,9 @@ void Frame::addNotify()
 			    break;
 		}
 	} while ( alive );
-
-	that.removeNotify();
+fprintf(stderr, ">>>>addNotify 10\n");
+	this->removeNotify();
+fprintf(stderr, ">>>>addNotify 11\n");
 }
 
 Component *Frame::getParent()
@@ -316,17 +320,17 @@ Component *Frame::getParent()
 
 Graphics *Frame::getGraphics()
 {
-	return &(that.native_graphics);
+	return &(this->native_graphics);
 }
 
 Dimension *Frame::getPreferredSize()
 {
-	return that.getSize();
+	return this->getSize();
 }
 
 void Frame::removeNotify()
 {
-	that.awt::Container::removeNotify();
+	this->awt::Container::removeNotify();
 
 	XUnmapWindow(glob::display, glob::win);
 	XCloseDisplay(glob::display);
@@ -351,12 +355,12 @@ void Frame::init()
 	}
 
 	glob::screen = DefaultScreen(glob::display);
-	that.display_width = DisplayWidth(glob::display, glob::screen);
-	that.display_height = DisplayHeight(glob::display, glob::screen);
+	this->display_width = DisplayWidth(glob::display, glob::screen);
+	this->display_height = DisplayHeight(glob::display, glob::screen);
 }
 
 
 Frame *Frame::clone()
 {
-	return new Frame(that);
+	return new Frame(*this);
 }

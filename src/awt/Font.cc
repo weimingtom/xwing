@@ -33,22 +33,22 @@ String *awt::Font::getFontName()
 
 int awt::Font::getStyle()
 {
-	return that.style;
+	return this->style;
 }
 
 
 unsigned int awt::Font::getSize()
 {
-	return that.size;
+	return this->size;
 }
 
 
 awt::Font &awt::Font::operator = ( awt::Font& rhs )
 {
 	if ( this != &rhs ) {
-		that.font_name = rhs.font_name;
-		that.style = rhs.style;
-		that.size = rhs.size;
+		this->font_name = rhs.font_name;
+		this->style = rhs.style;
+		this->size = rhs.size;
 		}
 
 	return *this;
@@ -60,13 +60,13 @@ bool awt::Font::equals ( Object* rhs )
 	awt::Font* obj = DCAST<awt::Font*>(rhs);
 
 	return
-		(that.font_name.equals(&(obj->font_name))) ||
-		(that.style == obj->style) ||
-		(that.size == obj->size);
+		(this->font_name.equals(&(obj->font_name))) ||
+		(this->style == obj->style) ||
+		(this->size == obj->size);
 }
 
 
 awt::Font *awt::Font::clone()
 {
-	return new awt::Font(that);
+	return new awt::Font(*this);
 }

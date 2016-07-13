@@ -17,12 +17,12 @@ EventObject::EventObject ( Object* s ) : source(s) {
 
 Object*
 EventObject::getSource() {
-	return that.source;
+	return this->source;
 	}
 
 
 
 EventObject*
 EventObject::clone() {
-	return new EventObject(that);
+	return new EventObject(*this);
 	}

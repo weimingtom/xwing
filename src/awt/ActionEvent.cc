@@ -41,7 +41,7 @@ ActionEvent::ActionEvent ( Object* s, String& cmd ) :
 
 ActionEvent*
 ActionEvent::clone() {
-	return new ActionEvent(that);
+	return new ActionEvent(*this);
 	}
 
 // void

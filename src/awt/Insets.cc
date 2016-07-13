@@ -26,10 +26,10 @@ Insets::equals ( Object& obj ) {
 		Insets& rhs = DC<Insets&>(obj);
 
 		return
-			(that.top == rhs.top) |
-			(that.left == rhs.left) |
-			(that.bottom == rhs.bottom) |
-			(that.right == rhs.right);
+			(this->top == rhs.top) |
+			(this->left == rhs.left) |
+			(this->bottom == rhs.bottom) |
+			(this->right == rhs.right);
 		}
 	catch ( ... ) {
 		return false;
@@ -40,5 +40,5 @@ Insets::equals ( Object& obj ) {
 
 Insets*
 Insets::clone() {
-	return new Insets(that);
+	return new Insets(*this);
 	}

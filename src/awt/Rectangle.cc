@@ -23,12 +23,12 @@ Rectangle::Rectangle ( int x, int y, unsigned int width, unsigned int height) :
 bool
 Rectangle::contains ( int x, int y ) {
 	return
-		(x > that.x) && (y > that.y) &&
-		(x < (that.x + that.width)) && (y < (that.y + that.height));
+		(x > this->x) && (y > this->y) &&
+		(x < (this->x + this->width)) && (y < (this->y + this->height));
 	}
 
 
 Rectangle*
 Rectangle::clone() {
-	return new Rectangle(that);
+	return new Rectangle(*this);
 	}

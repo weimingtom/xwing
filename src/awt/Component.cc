@@ -45,49 +45,49 @@ Component::Component() :
 
 Border* Component::getBorder()
 {
-	return that.border;
+	return this->border;
 }
 
 
 Dimension* Component::getSize()
 {
-	return new Dimension(that.width, that.height);
+	return new Dimension(this->width, this->height);
 }
 
 
 Rectangle* Component::getBounds()
 {
-	return new Rectangle(that.x, that.y, that.width, that.height);
+	return new Rectangle(this->x, this->y, this->width, this->height);
 }
 
 
 int Component::getX()
 {
-	return that.x;
+	return this->x;
 }
 
 
 int Component::getY()
 {
-	return that.y;
+	return this->y;
 }
 
 
 Component *Component::getParent()
 {
-	return CCAST<Component*>(that.parent);
+	return CCAST<Component*>(this->parent);
 }
 
 
 Graphics *Component::getGraphics()
 {
-	return that.graphics;
+	return this->graphics;
 }
 
 
 awt::Font *Component::getFont()
 {
-	return that.font;
+	return this->font;
 }
 
 
@@ -99,19 +99,19 @@ FontMetrics *Component::getFontMetrics ( awt::Font *font )
 
 Color *Component::getForeground()
 {
-	return that.foreground;
+	return this->foreground;
 }
 
 
 Color *Component::getBackground()
 {
-	return that.background;
+	return this->background;
 }
 
 
 Component *Component::getComponentAt ( int x, int y )
 {
-	if ( that.getBounds()->contains(x,y) )
+	if ( this->getBounds()->contains(x,y) )
 		return this;
 
 	return 0;
@@ -120,46 +120,46 @@ Component *Component::getComponentAt ( int x, int y )
 
 void Component::setBorder ( Border* border )
 {
-	if ( that.border != border )
-		that.border = border->clone();
+	if ( this->border != border )
+		this->border = border->clone();
 }
 
 
 void Component::setFont ( awt::Font* font )
 {
-	that.font = font->clone();
+	this->font = font->clone();
 }
 
 
 void Component::setForeground ( Color* c )
 {
-	that.foreground = c->clone();
+	this->foreground = c->clone();
 }
 
 
 void Component::setBackground ( Color* c )
 {
-	that.background = c->clone();
+	this->background = c->clone();
 }
 
 
 void Component::setSize ( Dimension* d )
 {
-	that.setSize(d->width, d->height);
+	this->setSize(d->width, d->height);
 }
 
 
 void Component::setSize ( unsigned int w, unsigned int h )
 {
-	that.width = w;
-	that.height = h;
+	this->width = w;
+	this->height = h;
 }
 
 
 void Component::setLocation ( unsigned int x, unsigned int y )
 {
-	that.x = x;
-	that.y = y;
+	this->x = x;
+	this->y = y;
 }
 
 
@@ -169,23 +169,23 @@ void Component::paint ( Graphics* g )
 	// Paint border.
 	////////////////////////////////////////
 
-	if ( that.border )
-		that.border->paintBorder(this, g, that.x, that.y,
-					 that.width, that.height);
+	if ( this->border )
+		this->border->paintBorder(this, g, this->x, this->y,
+					 this->width, this->height);
 }
 
 
 void Component::paintAll ( Graphics* g )
 {
 	if ( g )
-		that.paint(g);
+		this->paint(g);
 }
 
 
 void Component::repaint()
 {
-	if ( that.graphics )
-		that.update(that.graphics);
+	if ( this->graphics )
+		this->update(this->graphics);
 }
 
 
@@ -197,26 +197,26 @@ void Component::update ( Graphics* g )
 
 	if ( g )
 	{
-		if ( that.graphics != g )
+		if ( this->graphics != g )
 		{
-			if ( that.graphics )
-				that.graphics->dispose();
-			that.graphics = g->create();
+			if ( this->graphics )
+				this->graphics->dispose();
+			this->graphics = g->create();
 		}
 
 		////////////////////////////////////////
 		// Fill background with color.
 		////////////////////////////////////////
 
-		that.graphics->setColor(that.background);
-		that.graphics->fillRect(0, 0, that.width, that.height);
+		this->graphics->setColor(this->background);
+		this->graphics->fillRect(0, 0, this->width, this->height);
 
 		////////////////////////////////////////
 		// Paint myself.
 		////////////////////////////////////////
 
-		that.graphics->setColor(that.foreground);
-		that.paint(that.graphics);
+		this->graphics->setColor(this->foreground);
+		this->paint(this->graphics);
 	}
 }
 
@@ -225,45 +225,45 @@ void Component::validate()
 {
 	Dimension* psize;
 
-	psize = that.getPreferredSize();
+	psize = this->getPreferredSize();
 	cout << "psize: " << *psize << endl;
 }
 
 
 void Component::removeNotify()
 {
-	if ( that.graphics )
-		that.graphics->dispose();
-	that.graphics = 0;
+	if ( this->graphics )
+		this->graphics->dispose();
+	this->graphics = 0;
 }
 
 
 void Component::addMouseListener ( MouseListener* l )
 {
-	that.ml_list->add(l);
+	this->ml_list->add(l);
 }
 
 
 void Component::dispatchEvent ( AWTEvent* evt )
 {
-	that.processEvent(evt);
+	this->processEvent(evt);
 }
 
 
 void Component::processEvent ( AWTEvent* evt )
 {
-	Component* parent = that.getParent();
+	Component* parent = this->getParent();
 	if ( parent )
 		parent->processEvent(evt);
 
-	unsigned int count = that.ml_list->size();
+	unsigned int count = this->ml_list->size();
 
 	if ( count )
 	{
 		MouseEvent* mouse_event = DCAST<MouseEvent*>(evt);
 		if ( mouse_event )
 		{
-			that.processMouseEvent(mouse_event);
+			this->processMouseEvent(mouse_event);
 		}
 	}
 }
@@ -272,11 +272,11 @@ void Component::processEvent ( AWTEvent* evt )
 void Component::processMouseEvent ( MouseEvent* evt )
 {
 	MouseListener* l;
-	unsigned int count = that.ml_list->size();
+	unsigned int count = this->ml_list->size();
 
 	for ( int i = 0; i < count; ++i )
 	{
-		l = that.ml_list->getPtr(i);
+		l = this->ml_list->getPtr(i);
 
 		switch ( evt->getId() )
 		{

@@ -27,7 +27,7 @@ EmptyBorder::EmptyBorder ( unsigned int top, unsigned int left,
 
 Insets*
 EmptyBorder::getBorderInsets ( Component* ) {
-	new Insets(that.top, that.left, that.bottom, that.right);
+	new Insets(this->top, this->left, this->bottom, this->right);
 	}
 
 bool
@@ -44,5 +44,5 @@ EmptyBorder::paintBorder ( Component*, Graphics*, int, int,
 
 EmptyBorder*
 EmptyBorder::clone() {
-	return new EmptyBorder(that);
+	return new EmptyBorder(*this);
 	}

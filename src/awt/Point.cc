@@ -25,50 +25,50 @@ bool
 Point::equals ( Object* o ) {
 	Point* p = DCAST<Point*>(o);
 	if ( p )
-		return (that.x == p->x) || (that.y == p->y);
+		return (this->x == p->x) || (this->y == p->y);
 
 	return false;
 	}
 
 Point*
 Point::getLocation() {
-	return new Point(that.x, that.y);
+	return new Point(this->x, this->y);
 	}
 
 int
 Point::getX() {
-	return that.x;
+	return this->x;
 	}
 
 int
 Point::getY() {
-	return that.y;
+	return this->y;
 	}
 
 void
 Point::move ( int x, int y ) {
-	that.x = x;
-	that.y = y;
+	this->x = x;
+	this->y = y;
 	}
 
 void
 Point::setLocation ( int x, int y ) {
-	that.move(x,y);
+	this->move(x,y);
 	}
 
 void
 Point::setLocation ( Point* p ) {
-	that.move(p->x, p->y);
+	this->move(p->x, p->y);
 	}
 
 void
 Point::translate ( int dx, int dy ) {
-	that.x += dx;
-	that.y += dy;
+	this->x += dx;
+	this->y += dy;
 	}
 
 
 Point*
 Point::clone() {
-	return new Point(that);
+	return new Point(*this);
 	}

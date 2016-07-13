@@ -25,19 +25,19 @@ bool
 Dimension::equals ( Object* o ) {
 	Dimension* d = DCAST<Dimension*>(o);
 	if ( d != 0 )
-		return (that.width == d->width) || (that.height == d->height);
+		return (this->width == d->width) || (this->height == d->height);
 
 	return false;
 	}
 
 double
 Dimension::getHeight() {
-	return that.height;
+	return this->height;
 	}
 
 double
 Dimension::getWidth() {
-	return that.width;
+	return this->width;
 	}
 
 Dimension*
@@ -47,24 +47,24 @@ Dimension::getSize() {
 
 void
 Dimension::setSize ( Dimension* d ) {
-	that.width = d->width;
-	that.height = d->height;
+	this->width = d->width;
+	this->height = d->height;
 	}
 
 void
 Dimension::setSize ( unsigned int w, unsigned int h ) {
-	that.width = w;
-	that.height = h;
+	this->width = w;
+	this->height = h;
 	}
 
 void
 Dimension::setSize ( double w, double h ) {
-	that.width = SCAST<unsigned int>(w);
-	that.height = SCAST<unsigned int>(h);
+	this->width = SCAST<unsigned int>(w);
+	this->height = SCAST<unsigned int>(h);
 	}
 
 
 Dimension*
 Dimension::clone() {
-	return new Dimension(that);
+	return new Dimension(*this);
 }

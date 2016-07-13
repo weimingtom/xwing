@@ -1,0 +1,20 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:595: checking for gcc
+configure:708: checking whether the C compiler (gcc  ) works
+configure:724: gcc -o conftest    conftest.c  1>&5
+configure:750: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:755: checking whether we are using GNU C
+configure:783: checking whether gcc accepts -g
+configure:819: checking for c++
+configure:851: checking whether the C++ compiler (c++  ) works
+configure:867: c++ -o conftest    conftest.C  1>&5
+configure:893: checking whether the C++ compiler (c++  ) is a cross-compiler
+configure:898: checking whether we are using GNU C++
+configure:926: checking whether c++ accepts -g
+configure:988: checking for a BSD compatible install
+configure:1057: checking how to run the C++ preprocessor
+configure:1104: checking for X
+configure:1983: checking for GC_enable_incremental in -lgc
+configure:2037: checking for working const

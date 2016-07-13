@@ -32,15 +32,15 @@ MouseEvent::MouseEvent ( Component* source, int id, long, int,
 
 int
 MouseEvent::getX() {
-	return that.x;
+	return this->x;
 	}
 
 int MouseEvent::getY() {
-	return that.y;
+	return this->y;
 	}
 
 
 MouseEvent*
 MouseEvent::clone() {
-	return new MouseEvent(that);
+	return new MouseEvent(*this);
 	}

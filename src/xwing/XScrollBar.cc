@@ -20,72 +20,72 @@ XScrollBar::XScrollBar() : model(new DefaultBoundedRangeModel()) {
 
 int
 XScrollBar::getBlockIncrement() {
-	return that.blockIncrement;
+	return this->blockIncrement;
 	}
 
 int
 XScrollBar::getMaximum() {
-	return that.model->getMaximum();
+	return this->model->getMaximum();
 	}
 
 int
 XScrollBar::getMinimum() {
-	return that.model->getMinimum();
+	return this->model->getMinimum();
 	}
 
 int
 XScrollBar::getOrientation() {
-	return that.orientation;
+	return this->orientation;
 	}
 
 int
 XScrollBar::getUnitIncrement() {
-	return that.unitIncrement;
+	return this->unitIncrement;
 	}
 
 int
 XScrollBar::getValue() {
-	return that.model->getValue();
+	return this->model->getValue();
 	}
 
 int
 XScrollBar::getVisibleAmount() {
-	return that.visibleAmount;
+	return this->visibleAmount;
 	}
 
 void
 XScrollBar::setBlockIncrement ( int n ) {
-	that.blockIncrement = n;
+	this->blockIncrement = n;
 	}
 
 void
 XScrollBar::setMaximum ( int n ) {
-	that.model->setMaximum(n);
+	this->model->setMaximum(n);
 	}
 
 void
 XScrollBar::setMinimum ( int n ) {
-	that.model->setMinimum(n);
+	this->model->setMinimum(n);
 	}
 
 void
 XScrollBar::setOrientation ( int n ) {
-	that.orientation = n;
+	this->orientation = n;
 	}
 
 void
 XScrollBar::setUnitIncrement ( int n ) {
-	that.unitIncrement = n;
+	this->unitIncrement = n;
 	}
 
 void
 XScrollBar::setValue ( int n ) {
-	that.model->setValue(n);
+	this->model->setValue(n);
 	}
 
 void
 XScrollBar::setVisibleAmount ( int n ) {
-	that.visibleAmount = n;
+	this->visibleAmount = n;
 	}
 
 void
@@ -97,5 +97,5 @@ XScrollBar::paint ( Graphics* g ) {
 XScrollBar*
 XScrollBar::clone()
 {
-	return new XScrollBar(that);
+	return new XScrollBar(*this);
 }

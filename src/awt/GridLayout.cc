@@ -86,8 +86,8 @@ GridLayout::layoutContainer ( awt::Container* parent ) {
 	// the gaps between the components.
 	////////////////////////////////////////
 
-	unsigned int each_width = ((size->width - ((cols-1)*that.hgap)) / cols);
-	unsigned int each_height = ((size->height - ((rows-1)*that.vgap)) / rows);
+	unsigned int each_width = ((size->width - ((cols-1)*this->hgap)) / cols);
+	unsigned int each_height = ((size->height - ((rows-1)*this->vgap)) / rows);
 
 	unsigned int count = parent->getComponentCount();
 	unsigned int x = 0;
@@ -95,10 +95,10 @@ GridLayout::layoutContainer ( awt::Container* parent ) {
 	unsigned int k = 0;
 
 	if ( count ) {
-		for ( int i = 0; i < that.rows; ++i ) {
+		for ( int i = 0; i < this->rows; ++i ) {
 			y = insets->top + (i * (each_height + vgap));
 
-			for ( int j = 0; j < that.cols; ++j ) {
+			for ( int j = 0; j < this->cols; ++j ) {
 				x = insets->left + (j * (hgap + each_width));
 
  				Component* c = parent->getComponent(k);
@@ -125,5 +125,5 @@ GridLayout::layoutContainer ( awt::Container* parent ) {
 
 GridLayout*
 GridLayout::clone() {
-	return new GridLayout(that);
+	return new GridLayout(*this);
 	}

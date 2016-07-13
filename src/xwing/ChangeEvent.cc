@@ -19,5 +19,5 @@ ChangeEvent::ChangeEvent ( Object* s ) :
 ChangeEvent*
 ChangeEvent::clone()
 {
-	return new ChangeEvent(that);
+	return new ChangeEvent(*this);
 }

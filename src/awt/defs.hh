@@ -25,7 +25,7 @@
 
 #include <base/inc.hh>
 
-#define that (*this)
+//#define that (*this)
 
 
 namespace glob {

@@ -18,7 +18,7 @@
 /* 
  * Default font.
  */
-awt::Font* Graphics::SWING_FONT = new awt::Font(new String("-*-lucida-bold-r-*-*-12-*-*-*-*-*-*-*"), 2, 12);
+awt::Font* Graphics::SWING_FONT = new awt::Font(new String("6*10"/*"-*-lucida-bold-r-*-*-12-*-*-*-*-*-*-*"*/), 2, 12);
 
 
 
