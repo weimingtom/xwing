@@ -14,3 +14,14 @@ $ make
 $ make demo  
 $ ./xwing/frametest  
 $ make clean  
+
+## Important place  
+* src/awt/Frame.cc  
+void Frame::addNotify()  
+* src/awt/NativeGraphics.cc  
+void NativeGraphics::setFont ( awt::Font* font )  
+* src/xwing/frametest.cc  
+int main()  
+* src/awt/Graphics.cc  
+awt::Font* Graphics::SWING_FONT = new awt::Font(new String("6*10"/*"-*-lucida-bold-r-*-*-12-*-*-*-*-*-*-*"*/), 2, 12);  
+
