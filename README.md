@@ -82,3 +82,5 @@ For your reference, I'm using gcc-2.95-2, gmake-3.77, and autoconf-2.13. My gmak
 
 This version of egcs, unfortunately, is the stock compiler of RedHat 5.2. I don't know about 6.0 yet, but chances are if you're using RedHat linux you'll have to upgrade your compiler.
 
+## About the modifications of weimingtom  
+[README_wmt_build.md](README_wmt_build.md)  
